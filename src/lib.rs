@@ -11,7 +11,7 @@ use seed::{prelude::*, *};
 
 // `init` describes what should happen when your app started.
 fn init(_: Url, _: &mut impl Orders<Msg>) -> Model {
-    Model::default()
+    Model { counter: 0 }
 }
 
 // ------ ------
@@ -19,7 +19,9 @@ fn init(_: Url, _: &mut impl Orders<Msg>) -> Model {
 // ------ ------
 
 // `Model` describes our app state.
-type Model = i32;
+struct Model {
+    counter: i32,
+}
 
 // ------ ------
 //    Update
@@ -35,7 +37,7 @@ enum Msg {
 // `update` describes how to handle each `Msg`.
 fn update(msg: Msg, model: &mut Model, _: &mut impl Orders<Msg>) {
     match msg {
-        Msg::Increment => *model += 1,
+        Msg::Increment => model.counter += 1,
     }
 }
 
@@ -50,7 +52,7 @@ fn view(model: &Model) -> Node<Msg> {
     div![
         "This is a counter: ",
         C!["counter"],
-        button![model, ev(Ev::Click, |_| Msg::Increment),],
+        button![model.counter, ev(Ev::Click, |_| Msg::Increment),],
     ]
 }
 
